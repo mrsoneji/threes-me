@@ -35,20 +35,64 @@ function love.update(dt)
         player = Threesome:getPlayer()
 
         if love.keyboard.isDown('w') then
-            player.x = player.x + velocity * math.cos( player.angle )
-            player.y = player.y + velocity * math.sin( player.angle )
+            local futurePlayerIfNotCollide = {}
+
+            local willCollide, x, y = Threesome:checkCollision(player.x + velocity * math.cos( player.angle ),
+                player.y + velocity * math.sin( player.angle ),
+                player.angle,
+                40)
+
+            if willCollide == false then
+                player.x = player.x + velocity * math.cos( player.angle )
+                player.y = player.y + velocity * math.sin( player.angle )
+                player.angle = player.angle
+                player.elevation = player.elevation
+            end
         end
         if love.keyboard.isDown('s') then
-            player.x = player.x - velocity * math.cos( player.angle )
-            player.y = player.y - velocity * math.sin( player.angle )
+            local futurePlayerIfNotCollide = {}
+
+            local willCollide, x, y = Threesome:checkCollision(player.x - velocity * math.cos( player.angle ),
+                player.y - velocity * math.sin( player.angle ),
+                player.angle,
+                40)
+
+            if willCollide == false then
+                player.x = player.x - velocity * math.cos( player.angle )
+                player.y = player.y - velocity * math.sin( player.angle )
+                player.angle = player.angle
+                player.elevation = player.elevation
+            end
         end
         if love.keyboard.isDown('a') then
-            player.x = player.x - (velocity * 2) * math.cos( player.angle + 90 )
-            player.y = player.y - (velocity * 2) * math.sin( player.angle + 90 )
+            local futurePlayerIfNotCollide = {}
+
+            local willCollide, x, y = Threesome:checkCollision(player.x - (velocity * 2) * math.cos( player.angle + 90 ),
+                player.y - (velocity * 2) * math.sin( player.angle + 90 ),
+                player.angle,
+                40)
+
+            if willCollide == false then
+                player.x = player.x - (velocity * 2) * math.cos( player.angle + 90 )
+                player.y = player.y - (velocity * 2) * math.sin( player.angle + 90 )
+                player.angle = player.angle
+                player.elevation = player.elevation
+            end
         end
         if love.keyboard.isDown('d') then
-            player.x = player.x - (velocity * 2) * math.cos( player.angle - 90 )
-            player.y = player.y - (velocity * 2) * math.sin( player.angle - 90 )
+            local futurePlayerIfNotCollide = {}
+
+            local willCollide, x, y = Threesome:checkCollision(player.x - (velocity * 2) * math.cos( player.angle - 90 ),
+                player.y - (velocity * 2) * math.sin( player.angle - 90 ),
+                player.angle,
+                40)
+
+            if willCollide == false then
+                player.x = player.x - (velocity * 2) * math.cos( player.angle - 90 )
+                player.y = player.y - (velocity * 2) * math.sin( player.angle - 90 )
+                player.angle = player.angle
+                player.elevation = player.elevation
+            end
         end
         if love.keyboard.isDown('left') then
             player.angle = player.angle - .026

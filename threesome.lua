@@ -81,10 +81,7 @@ function Threesome:checkCollision(x, y, angle, distance)
     local x = math.floor(xTile)
     local y = math.floor(yTile)
 
-    -- Let's put some guard clauses here
-    if x < 0 or y < 0 then hasCollided = true end
-    if map[x] == nil or map[x][y] == nil then hasCollided = true end
-
+    if map[x][y] == 92 or map[x][y] == 1 then hasCollided = true end
     return hasCollided, xTile, yTile
 end
 
@@ -103,9 +100,8 @@ function Threesome:render()
             local y = math.floor(yTile)
 
             -- Let's put some guard clauses here
-            if (hasCollided == true) then
-                break
-            end
+            if x < 0 or y < 0 then break end
+            if map[x] == nil or map[x][y] == nil then break end
 
             local column_width = c / 64
             local column_height = 64 / (c * math.cos(angle - myPlayer.angle)) * viewport_width
