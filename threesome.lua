@@ -97,7 +97,7 @@ function Threesome:render()
             local column_height = 64 / (c * math.cos(angle - myPlayer.angle)) * viewport_width
             if map[x][y] == 92 then
                 local r, g, b = colors[1]
-                -- r, g, b = vivid.darken(1 / 1000 * c, r, g, b)
+                r, g, b = vivid.darken(1 / 1000 * c, r, g, b)
                 love.graphics.setColor(r, g, b)
                 -- love.graphics.rectangle( "fill", (q * viewport_width / rays), viewport_height / 2 - (column_height / 3), viewport_width / rays, column_height )
 
@@ -127,7 +127,7 @@ function Threesome:render()
                 break
             elseif map[x][y] == 1 then
                 local r, g, b = colors[2]
-                -- r, g, b = vivid.darken(1 / 1000 * c, r, g, b)
+                r, g, b = vivid.darken(1 / 1000 * c, r, g, b)
                 love.graphics.setColor(r, g, b)
                 -- love.graphics.rectangle( "fill", (q * viewport_width / rays), viewport_height / 2 - (column_height / 3), viewport_width / rays, column_height )
 
