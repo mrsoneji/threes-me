@@ -74,6 +74,20 @@ function Threesome:init()
 
 end
 
+function Threesome:checkCollision(x, y, angle, distance)
+    local hasCollided = false
+    local xTile = (x + distance * math.cos(angle)) / 64
+    local yTile = (y + distance * math.sin(angle)) / 64
+    local x = math.floor(xTile)
+    local y = math.floor(yTile)
+
+    -- Let's put some guard clauses here
+    if x < 0 or y < 0 then hasCollided = true end
+    if map[x] == nil or map[x][y] == nil then hasCollided = true end
+
+    return hasCollided, xTile, yTile
+end
+
 function Threesome:render()
     -- Set FOV. Here we set the vision range.
     -- Where the nearest fov is to PI, the wider the vision.
@@ -84,14 +98,14 @@ function Threesome:render()
         local angle = myPlayer.angle - fov / 2 + fov * q / viewport_width
 
         for c = 0, ray_length, 1 do
-            local xTile = (myPlayer.x + c * math.cos(angle)) / 64
-            local yTile = (myPlayer.y + c * math.sin(angle)) / 64
+            local hasCollided, xTile, yTile = Threesome:checkCollision(myPlayer.x, myPlayer.y, angle, c)
             local x = math.floor(xTile)
             local y = math.floor(yTile)
 
             -- Let's put some guard clauses here
-            if x < 0 or y < 0 then break end
-            if map[x] == nil or map[x][y] == nil then break end
+            if (hasCollided == true) then
+                break
+            end
 
             local column_width = c / 64
             local column_height = 64 / (c * math.cos(angle - myPlayer.angle)) * viewport_width
@@ -129,7 +143,6 @@ function Threesome:render()
                 local r, g, b = colors[2]
                 r, g, b = vivid.darken(1 / 1000 * c, r, g, b)
                 love.graphics.setColor(r, g, b)
-                -- love.graphics.rectangle( "fill", (q * viewport_width / rays), viewport_height / 2 - (column_height / 3), viewport_width / rays, column_height )
 
                 local t = {}
                 table.insert(t, math.floor(math.mod(xTile, 1) * 16))
@@ -187,14 +200,6 @@ end
 
 function Threesome:getPlayer()
     return myPlayer
-end
-
--- Private functions
-function renderAccordingTile(xtile, ytile)
-    -- Get nearest image column
-    print(' :: Data arrived xtile: '..xtile..':: Result: '..(math.mod(xtile, 1) * 64))
-    print(' :: Data arrived ytile: '..ytile..':: Result: '..(math.mod(ytile, 1) * 64))
-    
 end
 
 function nearestValue(table, number)
